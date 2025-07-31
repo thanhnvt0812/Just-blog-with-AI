@@ -1,4 +1,5 @@
 import BlogPost from "../models/BlogPost.js";
+import Comment from "../models/Comment.js";
 import mongoose from "mongoose";
 //---------------------------------------------
 //@desc Create a new blog post
@@ -152,8 +153,12 @@ export const deletePost = async (req, res) => {
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
     }
+    //delete comment related to post
+    await Comment.deleteMany({ post: post._id });
     await post.deleteOne();
-    res.status(200).json({ message: "Post deleted successfully" });
+    res
+      .status(200)
+      .json({ message: "Post and related comments deleted successfully" });
   } catch (error) {
     res
       .status(500)
