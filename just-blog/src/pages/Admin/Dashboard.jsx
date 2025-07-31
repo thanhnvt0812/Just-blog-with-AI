@@ -42,7 +42,7 @@ const Dashboard = () => {
     return () => {};
   }, []);
   return (
-    <DashboardLayout activeMenu="dashboard">
+    <DashboardLayout activeMenu="Dashboard">
       {dashboardData && (
         <>
           <div className="bg-white p-6 rounded-2xl shadow-md shadow-gray-100 border border-gray-200/50 mt-5">

@@ -51,7 +51,7 @@ const TagInsights = ({ tagUsage }) => {
   })();
   return (
     <div className="grid grid-cols-12 mt-4">
-      <div className="col-span-12 md:col-span-7 min-h-[300px]">
+      <div className="col-span-12 md:col-span-7 min-h-[350px]">
         <CustomPieChart data={processedData} colors={COLORS} />
       </div>
       <div className="col-span-12 md:col-span-5 mt-5 md:mt-0">
