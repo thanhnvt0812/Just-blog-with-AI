@@ -8,6 +8,7 @@ import {
   LuSend,
   LuSparkles,
   LuTrash2,
+  LuArrowLeft,
 } from "react-icons/lu";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
@@ -21,6 +22,7 @@ import GenerateBlogPostForm from "./components/GenerateBlogPostForm";
 import { uploadImage } from "../../utils/uploadImage";
 import toast from "react-hot-toast";
 import { getToastMessageByType } from "../../utils/helper";
+import DeleteAlertContent from "../../components/Loader/DeleteAlertContent";
 
 const BlogPostEditor = ({ isEdit }) => {
   const navigate = useNavigate();
@@ -126,9 +128,39 @@ const BlogPostEditor = ({ isEdit }) => {
     }
   };
   //get post data by slug
-  const fetchPostDataBySlug = async () => {};
+  const fetchPostDataBySlug = async () => {
+    try {
+      const response = await axiosInstance.get(
+        API_PATHS.POSTS.GET_BY_SLUG(postSlug)
+      );
+      if (response.data) {
+        const data = response.data;
+        setPostData((prevState) => ({
+          ...prevState,
+          id: data._id,
+          title: data.title,
+          content: data.content,
+          coverPreView: data.coverImageUrl,
+          tags: data.tags,
+          isDraft: data.isDraft,
+          generatedByAI: data.generatedByAI,
+        }));
+      }
+    } catch (error) {
+      console.error("Error fetching blog post by slug:", error);
+    }
+  };
   //delete blog post
-  const deletePost = async () => {};
+  const deletePost = async () => {
+    try {
+      await axiosInstance.delete(API_PATHS.POSTS.DELETE(postData.id));
+      toast.success("Post deleted successfully");
+      setOpenDeleteAlert(false);
+      navigate("/admin/posts");
+    } catch (error) {
+      console.error("Error deleting blog post:", error);
+    }
+  };
 
   useEffect(() => {
     if (isEdit) fetchPostDataBySlug();
@@ -145,6 +177,15 @@ const BlogPostEditor = ({ isEdit }) => {
                 {isEdit ? "Edit Post" : "Add New Post"}
               </h2>
               <div className="flex items-center gap-3">
+                {/* Go Back Button */}
+                <button
+                  className="flex items-center gap-2.5 text-[13px] font-medium text-gray-500 bg-gray-50 rounded md:px-3 py-1.5 md:py-[3px] border border-gray-200 hover:border-gray-400 hover:bg-gray-100 cursor-pointer transition-all"
+                  onClick={() => navigate(-1)}
+                  disabled={loading}
+                >
+                  <LuArrowLeft className="text-sm" />
+                  <span className="hidden md:block">Go Back</span>
+                </button>
                 {isEdit && (
                   <button
                     className="flex items-center gap-2.5 text-[13px] font-medium text-red-500 bg-rose-50/60 rounded md:px-3 py-1.5 md:py-[3px] border border-rose-100 hover:border-rose-300 cursor-pointer hover:scale-100 transition-all"
@@ -303,6 +344,20 @@ const BlogPostEditor = ({ isEdit }) => {
             setOpenBlogPostGenForm({ open: false, data: null })
           }
         />
+      </Modal>
+      <Modal
+        isOpen={openDeleteAlert}
+        onClose={() => {
+          setOpenDeleteAlert(false);
+        }}
+        title="Delete Alert"
+      >
+        <div className="w-[40vw]">
+          <DeleteAlertContent
+            content="Are you sure you want to delete this post?"
+            onDelete={() => deletePost()}
+          />
+        </div>
       </Modal>
     </DashboardLayout>
   );

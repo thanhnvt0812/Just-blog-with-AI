@@ -23,3 +23,7 @@ export const getToastMessageByType = (type) => {
       return "Blog post published successfully";
   }
 };
+export const sanitizeMarkdown = (content) => {
+  // remove only ```markdown at the beginning of the string (if present)
+  return content.replace(/^```markdown\s*/i, "").trim();
+};

@@ -11,6 +11,7 @@ import ProfileInfoCard from "../../Cards/ProfileInfoCard";
 import SignUp from "../../Auth/SignUp";
 import Login from "../../Auth/Login";
 import Modal from "../../Loader/Modal";
+import SearchBarPopup from "../../../pages/Blog/components/SearchBarPopup";
 
 const BlogNavbar = ({ activeMenu }) => {
   const [openSideMenu, setOpenSideMenu] = useState(false);
@@ -49,7 +50,7 @@ const BlogNavbar = ({ activeMenu }) => {
                     <span
                       className={`absolute inset-x-0 bottom-0 h-[2px] bg-sky-500 transition-all duration-300 origin-left ${
                         index == 0 ? "scale-x-100" : "scale-x-0"
-                      }`}
+                      } group-hover:scale-x-100`}
                     ></span>
                   </li>
                 </Link>
@@ -88,6 +89,7 @@ const BlogNavbar = ({ activeMenu }) => {
         </div>
       </div>
       <AuthModel />
+      <SearchBarPopup isOpen={openSearchBar} setIsOpen={setOpenSearchBar} />
     </>
   );
 };

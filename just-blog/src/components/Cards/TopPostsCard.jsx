@@ -22,7 +22,7 @@ const TopPostsCard = ({
         />
         <h3
           className="text-sm font-medium text-gray-800 line-clamp-2 cursor-pointer"
-          onClick={() => navigate(`/posts/slug/${slug}`)}
+          onClick={() => navigate(`/${slug}`)}
         >
           {title}
         </h3>

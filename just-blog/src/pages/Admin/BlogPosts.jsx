@@ -48,7 +48,6 @@ const BlogPosts = () => {
         { label: "Published", count: statusSummary.published || 0 },
         { label: "Draft", count: statusSummary.draft || 0 },
       ];
-      console.log(statusArray);
       setTabs(statusArray);
     } catch (error) {
       console.error("Error fetching blog posts:", error);

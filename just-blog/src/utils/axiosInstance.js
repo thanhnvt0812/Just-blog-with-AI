@@ -6,7 +6,7 @@ import { BASE_URL } from "./apiPaths";
 export const axiosInstance = axios.create({
   baseURL: BASE_URL,
   timeout: 80000,
-  header: {
+  headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
   },
@@ -34,7 +34,7 @@ axiosInstance.interceptors.response.use(
         //redirect to login
         //window.location.href = "/";
       } else if (error.response.status === 500) {
-        console.error("Server Error. Please try again later.");
+        console.error("Server Error. Please try again later.", error);
       }
     } else if (error.code === "ECONNABORTED")
       console.error("Request timed out. Please try again later.");
