@@ -41,7 +41,7 @@ export const getAllPosts = async (req, res) => {
   try {
     const status = req.query.status || "published"; // default to published
     const page = parseInt(req.query.page) || 1;
-    const limit = 5;
+    const limit = 10;
     const skip = (page - 1) * limit;
 
     // determine filter for main posts response
