@@ -34,8 +34,5 @@ app.use("/api/dashboard-summary", dashboardRoutes);
 app.use("/api/ai", aiRoutes);
 //Upload file
 app.use("/uploads", express.static(path.join(__dirname, "uploads"), {}));
-//Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// Export for Vercel
+module.exports = app;
